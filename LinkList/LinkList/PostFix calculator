@@ -1,0 +1,67 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace LinkList
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            //Post fix calculator
+            //567*+1-
+            //push 5  6  7 into stack
+            //operator * found
+            //pop 7 -- to right
+            //pop 6 -- to left
+            //execute 6 * 7 =42 ..push to stack ...now stack is 5 42
+            //operator + found .. 42 to right 5 to left... 47 ..push to stack then 1 
+            // pop 1 to right ..pop 47 to left.. answer 47-1 =46
+            Console.ReadLine();
+            Stack<int> stack = new Stack<int>();
+
+            foreach (var token in args)
+            {
+                int value;
+                if (int.TryParse(token, out value))
+                {
+                    stack.Push(value);
+                }
+                else
+                {
+                    int rhs = stack.Pop();
+                    int lhs = stack.Pop();
+
+                    switch (token)
+                    {
+                        case "+":
+                            stack.Push(lhs + rhs);
+                            break;
+                        case "-":
+                            stack.Push(lhs - rhs);
+                            break;
+                        case "*":
+                            stack.Push(rhs * lhs);
+                            break;
+                        case "/":
+                            stack.Push(lhs / rhs);
+                            break;
+                        case "%":
+                            stack.Push(lhs % rhs);
+                            break;
+                        default:
+                            throw new InvalidOperationException("unrecognized Token ${}");
+                    }
+                }
+
+            }
+
+            Console.WriteLine(stack.Pop());
+
+
+            Console.ReadLine();
+        }
+    }
+}
